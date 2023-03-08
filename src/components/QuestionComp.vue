@@ -1,5 +1,9 @@
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, defineEmits } from 'vue'; // import defineEmits from vue
+const emit = defineEmits(["selectOption"]); // define the name of the event
+const emitSelectedOption = (isCorrect)=>{
+    emit("selectOption", isCorrect) // emit the event with the name and the value
+}
 const props = defineProps(['question']);
 </script>
 
@@ -11,7 +15,8 @@ const props = defineProps(['question']);
             </h1>
         </div>
         <div class="answers-container">
-            <div v-for="option in question.options" :key="option.id" class="option">
+            <div v-for="option in question.options" :key="option.id"
+            @click="emitSelectedOption(option.isCorrect)" class="option">
                 <p class="option-label">{{ option.label }}</p>
                 <div class="option-value">
                     <p>{{ option.text }}</p>
